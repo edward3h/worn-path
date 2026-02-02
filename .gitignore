@@ -22,3 +22,6 @@ gradle-app.setting
 .classpath
 
 */run
+
+# IntelliJ IDEA
+.idea/
