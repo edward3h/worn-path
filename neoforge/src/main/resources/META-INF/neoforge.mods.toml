@@ -1,15 +1,15 @@
 modLoader = "javafml"
 loaderVersion = "[10,)"
 #issueTrackerURL = ""
-license = "Insert License Here"
+license = "MIT"
 
 [[mods]]
 modId = "worn_path"
 version = "${version}"
 displayName = "Worn Path"
-authors = "Me!"
+authors = "edward3h"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Where players walk, paths may appear.
 '''
 #logoFile = ""
 

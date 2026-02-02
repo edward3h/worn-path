@@ -8,10 +8,10 @@
     "edward3h"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/edward3h/worn-path",
+    "sources": "https://github.com/edward3h/worn-path"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/worn_path/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -32,7 +32,5 @@
     "architectury": ">=18.0.6",
     "fabric-api": "*"
   },
-  "suggests": {
-    "another-mod": "*"
-  }
+  "suggests": {}
 }
