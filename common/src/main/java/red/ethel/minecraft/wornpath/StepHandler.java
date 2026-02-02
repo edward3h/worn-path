@@ -41,6 +41,10 @@ public class StepHandler {
         if (randomValue > 0) {
             return;
         }
+        tryTransition(pos, state, playerEntity, 0);
+    }
+
+    private void tryTransition(BlockPos pos, BlockState state, Player playerEntity, int depth) {
         var blockId = state.getBlockHolder().getRegisteredName();
         if (!TRANSITIONS.containsKey(blockId)) {
             return;
@@ -49,14 +53,24 @@ public class StepHandler {
         if (stepCount >= WornPathBlocks.MAX_STEPS) {
             var nextId = TRANSITIONS.get(blockId);
             BlockState newState = BuiltInRegistries.BLOCK.getValue(ResourceLocation.parse(nextId)).defaultBlockState();
-            WornPathMod.LOGGER.info("Block {} new {}", blockId, newState);
+            WornPathMod.LOGGER.info("Transitioning {} to {} at depth {}", blockId, newState, depth);
 
-            double oldHeight = state.getCollisionShape(level, pos).max(net.minecraft.core.Direction.Axis.Y);
-            double newHeight = newState.getCollisionShape(level, pos).max(net.minecraft.core.Direction.Axis.Y);
-            level.setBlockAndUpdate(pos, newState);
+            if (depth == 0) {
+                double oldHeight = state.getCollisionShape(level, pos).max(net.minecraft.core.Direction.Axis.Y);
+                double newHeight = newState.getCollisionShape(level, pos).max(net.minecraft.core.Direction.Axis.Y);
+                level.setBlockAndUpdate(pos, newState);
 
-            if (newHeight > oldHeight) {
-                playerEntity.teleportTo(playerEntity.getX(), playerEntity.getY() + (newHeight - oldHeight), playerEntity.getZ());
+                if (newHeight > oldHeight) {
+                    playerEntity.teleportTo(playerEntity.getX(), playerEntity.getY() + (newHeight - oldHeight), playerEntity.getZ());
+                }
+            } else {
+                level.setBlockAndUpdate(pos, newState);
+            }
+
+            if (depth < WornPathBlocks.MAX_SPREAD_DEPTH) {
+                for (BlockPos neighbourPos : new BlockPos[]{pos.north(), pos.south(), pos.east(), pos.west()}) {
+                    tryTransition(neighbourPos, level.getBlockState(neighbourPos), playerEntity, depth + 1);
+                }
             }
         }
     }

@@ -5,6 +5,7 @@ import java.util.Map;
 public class WornPathBlocks {
     public static final int STEP_RANDOMNESS = 3;
     public static final int MAX_STEPS = 3;
+    public static final int MAX_SPREAD_DEPTH = 2;
     public static final Map<String, String> TRANSITIONS = Map.of(
             "minecraft:grass_block", "minecraft:dirt_path",
             "minecraft:dirt", "minecraft:dirt_path",
