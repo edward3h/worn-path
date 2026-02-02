@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "worn_path",
+  "version": "${version}",
+  "name": "Worn Path",
+  "description": "Where players walk, paths may appear.",
+  "authors": [
+    "edward3h"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/worn_path/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "red.ethel.minecraft.wornpath.fabric.WornPathModFabric"
+    ],
+    "client": [
+      "red.ethel.minecraft.wornpath.fabric.client.WornPathModFabricClient"
+    ]
+  },
+  "mixins": [
+    "worn_path.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~1.21.10",
+    "java": ">=21",
+    "architectury": ">=18.0.6",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
