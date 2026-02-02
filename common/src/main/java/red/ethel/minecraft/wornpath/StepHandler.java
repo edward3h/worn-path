@@ -48,9 +48,16 @@ public class StepHandler {
         int stepCount = inc(blockId, pos);
         if (stepCount >= WornPathBlocks.MAX_STEPS) {
             var nextId = TRANSITIONS.get(blockId);
-                        BlockState newState = BuiltInRegistries.BLOCK.getValue(ResourceLocation.parse(nextId)).defaultBlockState();
-                        WornPathMod.LOGGER.info("Block {} new {}", blockId, newState);
-                        level.setBlockAndUpdate(pos, newState);
+            BlockState newState = BuiltInRegistries.BLOCK.getValue(ResourceLocation.parse(nextId)).defaultBlockState();
+            WornPathMod.LOGGER.info("Block {} new {}", blockId, newState);
+
+            double oldHeight = state.getCollisionShape(level, pos).max(net.minecraft.core.Direction.Axis.Y);
+            double newHeight = newState.getCollisionShape(level, pos).max(net.minecraft.core.Direction.Axis.Y);
+            level.setBlockAndUpdate(pos, newState);
+
+            if (newHeight > oldHeight) {
+                playerEntity.teleportTo(playerEntity.getX(), playerEntity.getY() + (newHeight - oldHeight), playerEntity.getZ());
+            }
         }
     }
 
