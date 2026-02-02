@@ -1,5 +1,6 @@
 package red.ethel.minecraft.wornpath;
 
+import dev.architectury.event.events.common.LifecycleEvent;
 import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,8 @@ public final class WornPathMod {
     private static final Map<Level, StepHandler> handlers = new IdentityHashMap<>();
 
     public static void init() {
-        LOGGER.info("Hello from WornPathMod");
+        LOGGER.debug("WornPathMod initialising");
+        LifecycleEvent.SERVER_LEVEL_UNLOAD.register(handlers::remove);
     }
 
     public static StepHandler getHandler(Level level) {

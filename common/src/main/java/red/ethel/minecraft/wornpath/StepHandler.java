@@ -5,7 +5,6 @@ import com.github.benmanes.caffeine.cache.LoadingCache;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,9 +28,9 @@ public class StepHandler {
         this.level = level;
         stepCounts = Caffeine.newBuilder()
                 .maximumSize(1000)
-                .evictionListener((k, v, cause) -> WornPathMod.LOGGER.info("evict {} {}", k, v))
+                .evictionListener((k, v, cause) -> WornPathMod.LOGGER.debug("evict {} {}", k, v))
                 .build(k -> new AtomicInteger());
-        WornPathMod.LOGGER.info("new StepHandler {} {}", level, level.getRandom());
+        WornPathMod.LOGGER.debug("new StepHandler {} {}", level, level.getRandom());
     }
 
     public void handle(Player playerEntity, BlockPos pos, BlockState state) {
@@ -56,6 +55,6 @@ public class StepHandler {
     }
 
     private int inc(String blockId, BlockPos pos) {
-        return stepCounts.get(new BlockKey(blockId, pos)).incrementAndGet();
+        return Objects.requireNonNull(stepCounts.get(new BlockKey(blockId, pos))).incrementAndGet();
     }
 }
