@@ -1,0 +1,15 @@
+{
+  "config.worn_path.title": "Worn Path Configuration",
+  "config.worn_path.category.gameplay": "Gameplay",
+  "config.worn_path.category.gameplay.tooltip": "Settings that affect gameplay mechanics",
+  "config.worn_path.category.transitions": "Block Transitions",
+  "config.worn_path.category.transitions.tooltip": "Configure which blocks transition into others",
+  "config.worn_path.option.step_chance": "Step Chance",
+  "config.worn_path.option.step_chance.description": "1 in N chance per step to count towards a transition. E.g. 4 means a 25% chance, 1 means every step counts.",
+  "config.worn_path.option.max_steps": "Steps Required",
+  "config.worn_path.option.max_steps.description": "Number of successful steps needed to trigger a block transition.",
+  "config.worn_path.option.max_spread_depth": "Neighbor Spread Depth",
+  "config.worn_path.option.max_spread_depth.description": "How far block transitions spread to neighboring blocks. 0 disables spreading.",
+  "config.worn_path.option.transitions": "Transitions",
+  "config.worn_path.option.transitions.description": "List of block transitions in the format 'minecraft:source_block->minecraft:target_block'."
+}

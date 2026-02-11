@@ -35,6 +35,10 @@ dependencies {
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
+
+    // Config dependencies (optional at runtime)
+    modImplementation "dev.isxander:yet-another-config-lib:$rootProject.yacl_version"
+    modImplementation "com.terraformersmc:modmenu:$rootProject.modmenu_version"
 }
 
 processResources {
