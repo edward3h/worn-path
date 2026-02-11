@@ -36,6 +36,7 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
     shadowBundle "blue.endless:jankson:$rootProject.jankson_version"
+    runtimeOnly "blue.endless:jankson:$rootProject.jankson_version"
 
     // Config dependencies (optional at runtime)
     modImplementation "dev.isxander:yet-another-config-lib:$rootProject.yacl_version"
