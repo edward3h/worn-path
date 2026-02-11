@@ -1,7 +1,6 @@
 package red.ethel.minecraft.wornpath.config;
 
 import blue.endless.jankson.Jankson;
-import blue.endless.jankson.JsonArray;
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.JsonPrimitive;
 import blue.endless.jankson.api.SyntaxError;
@@ -10,6 +9,7 @@ import red.ethel.minecraft.wornpath.WornPathMod;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -92,14 +92,15 @@ public class WornPathConfigManager {
             cfg.maxSpreadDepth = json.getInt("maxSpreadDepth", cfg.maxSpreadDepth);
         }
         if (json.containsKey("transitions")) {
-            JsonArray arr = (JsonArray) json.get("transitions");
-            if (arr != null) {
-                cfg.transitions.clear();
-                for (var element : arr) {
-                    if (element instanceof JsonPrimitive primitive) {
-                        cfg.transitions.add(primitive.asString());
+            JsonObject obj = (JsonObject) json.get("transitions");
+            if (obj != null) {
+                Map<String, String> map = new LinkedHashMap<>();
+                for (var key : obj.keySet()) {
+                    if (obj.get(key) instanceof JsonPrimitive primitive) {
+                        map.put(key, primitive.asString());
                     }
                 }
+                cfg.transitions = map;
             }
         }
 
@@ -115,12 +116,12 @@ public class WornPathConfigManager {
         json.put("maxSpreadDepth", JsonPrimitive.of((long) cfg.maxSpreadDepth));
         json.setComment("maxSpreadDepth", "How far transitions spread to neighbours (0 = no spread)");
 
-        JsonArray transitions = new JsonArray();
-        for (String transition : cfg.transitions) {
-            transitions.add(JsonPrimitive.of(transition));
+        JsonObject transitions = new JsonObject();
+        for (var entry : cfg.transitions.entrySet()) {
+            transitions.put(entry.getKey(), JsonPrimitive.of(entry.getValue()));
         }
         json.put("transitions", transitions);
-        json.setComment("transitions", "Block progression chain as 'source->target' entries");
+        json.setComment("transitions", "Block transitions: source block ID -> target block ID");
 
         return json;
     }
@@ -162,6 +163,6 @@ public class WornPathConfigManager {
     }
 
     public static Map<String, String> getTransitions() {
-        return getConfig().getTransitionsMap();
+        return getConfig().transitions;
     }
 }
