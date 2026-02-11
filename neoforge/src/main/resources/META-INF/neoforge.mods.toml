@@ -34,5 +34,12 @@ versionRange = "[18.0.6,)"
 ordering = "AFTER"
 side = "BOTH"
 
+[[dependencies.worn_path]]
+modId = "yet_another_config_lib_v3"
+type = "optional"
+versionRange = "*"
+ordering = "NONE"
+side = "CLIENT"
+
 [[mixins]]
 config = "worn_path.mixins.json"

@@ -20,6 +20,9 @@
     ],
     "client": [
       "red.ethel.minecraft.wornpath.fabric.client.WornPathModFabricClient"
+    ],
+    "modmenu": [
+      "red.ethel.minecraft.wornpath.fabric.client.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -32,5 +35,8 @@
     "architectury": ">=18.0.6",
     "fabric-api": "*"
   },
-  "suggests": {}
+  "suggests": {
+    "yet_another_config_lib_v3": "*",
+    "modmenu": "*"
+  }
 }

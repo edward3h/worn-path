@@ -12,4 +12,10 @@ dependencies {
     modImplementation "dev.architectury:architectury:$rootProject.architectury_api_version"
 
     modImplementation("com.github.ben-manes.caffeine:caffeine:3.2.3")
+
+    // Jankson for config file parsing
+    implementation "blue.endless:jankson:$rootProject.jankson_version"
+
+    // YACL for config screen (compile-only, platform-specific at runtime)
+    modCompileOnly "dev.isxander:yet-another-config-lib:$rootProject.yacl_version"
 }

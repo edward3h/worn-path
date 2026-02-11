@@ -9,13 +9,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import red.ethel.minecraft.wornpath.config.WornPathConfigManager;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static red.ethel.minecraft.wornpath.WornPathBlocks.TRANSITIONS;
 
 public class StepHandler {
 
@@ -37,8 +36,8 @@ public class StepHandler {
         if (Objects.equals(pos, lastPos.put(playerEntity, pos))) {
             return;
         }
-        int randomValue = level.getRandom().nextIntBetweenInclusive(0, WornPathBlocks.STEP_RANDOMNESS);
-        if (randomValue > 0) {
+        int stepChance = WornPathConfigManager.getStepChance();
+        if (stepChance > 1 && level.getRandom().nextInt(stepChance) != 0) {
             return;
         }
         tryTransition(pos, state, playerEntity, 0);
@@ -46,12 +45,13 @@ public class StepHandler {
 
     private void tryTransition(BlockPos pos, BlockState state, Player playerEntity, int depth) {
         var blockId = state.getBlockHolder().getRegisteredName();
-        if (!TRANSITIONS.containsKey(blockId)) {
+        Map<String, String> transitions = WornPathConfigManager.getTransitions();
+        if (!transitions.containsKey(blockId)) {
             return;
         }
         int stepCount = inc(blockId, pos);
-        if (stepCount >= WornPathBlocks.MAX_STEPS) {
-            var nextId = TRANSITIONS.get(blockId);
+        if (stepCount >= WornPathConfigManager.getMaxSteps()) {
+            var nextId = transitions.get(blockId);
             BlockState newState = BuiltInRegistries.BLOCK.getValue(ResourceLocation.parse(nextId)).defaultBlockState();
             WornPathMod.LOGGER.info("Transitioning {} to {} at depth {}", blockId, newState, depth);
 
@@ -67,7 +67,7 @@ public class StepHandler {
                 level.setBlockAndUpdate(pos, newState);
             }
 
-            if (depth < WornPathBlocks.MAX_SPREAD_DEPTH) {
+            if (depth < WornPathConfigManager.getMaxSpreadDepth()) {
                 for (BlockPos neighbourPos : new BlockPos[]{pos.north(), pos.south(), pos.east(), pos.west()}) {
                     tryTransition(neighbourPos, level.getBlockState(neighbourPos), playerEntity, depth + 1);
                 }

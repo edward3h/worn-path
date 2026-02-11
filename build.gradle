@@ -17,6 +17,18 @@ allprojects {
             name = "ParchmentMC"
             url = "https://maven.parchmentmc.org"
         }
+        maven {
+            name = "Xander Maven"
+            url = "https://maven.isxander.dev/releases"
+        }
+        maven {
+            name = "Terraformers Maven"
+            url = "https://maven.terraformersmc.com/releases"
+        }
+        maven {
+            name = "Kotlin For Forge"
+            url = "https://thedarkcolour.github.io/KotlinForForge/"
+        }
     }
 }
 
