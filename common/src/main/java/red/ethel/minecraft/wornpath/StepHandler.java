@@ -4,7 +4,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -52,7 +52,7 @@ public class StepHandler {
         int stepCount = inc(blockId, pos);
         if (stepCount >= WornPathConfigManager.getMaxSteps()) {
             var nextId = transitions.get(blockId);
-            BlockState newState = BuiltInRegistries.BLOCK.getValue(ResourceLocation.parse(nextId)).defaultBlockState();
+            BlockState newState = BuiltInRegistries.BLOCK.getValue(Identifier.parse(nextId)).defaultBlockState();
             WornPathMod.LOGGER.info("Transitioning {} to {} at depth {}", blockId, newState, depth);
 
             if (depth == 0) {

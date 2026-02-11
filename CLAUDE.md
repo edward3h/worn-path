@@ -1,6 +1,6 @@
 # Worn Path Minecraft Mod
 
-Architectury-based multi-platform Minecraft mod for Fabric and NeoForge (MC 1.21.10).
+Architectury-based multi-platform Minecraft mod for Fabric and NeoForge (MC 1.21.11).
 Where players walk, paths may appear.
 
 ## Build Commands
@@ -33,13 +33,13 @@ Platform-agnostic logic goes in `common`. Each platform subproject has a thin en
 
 | Dependency | Version |
 |---|---|
-| Minecraft | 1.21.10 |
+| Minecraft | 1.21.11 |
 | Fabric Loader | 0.18.4+ |
-| Fabric API | 0.138.4+1.21.10 |
-| NeoForge | 21.10.34-beta |
-| Architectury API | 18.0.6+ |
+| Fabric API | 0.141.3+1.21.11 |
+| NeoForge | 21.11.38-beta |
+| Architectury API | 19.0.1+ |
 | Caffeine (caching) | 3.2.0 |
-| Parchment mappings | 2025.10.12 |
+| Parchment mappings | 2025.12.20 |
 
 ## Mixins
 
