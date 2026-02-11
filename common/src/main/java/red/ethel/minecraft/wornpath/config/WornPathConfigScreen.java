@@ -1,12 +1,10 @@
 package red.ethel.minecraft.wornpath.config;
 
 import dev.isxander.yacl3.api.ConfigCategory;
-import dev.isxander.yacl3.api.ListOption;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
-import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -68,21 +66,6 @@ public class WornPathConfigScreen {
                                 .controller(opt -> IntegerSliderControllerBuilder.create(opt)
                                         .range(0, 10)
                                         .step(1))
-                                .build())
-                        .build())
-                .category(ConfigCategory.createBuilder()
-                        .name(Component.translatable("config.worn_path.category.transitions"))
-                        .tooltip(Component.translatable("config.worn_path.category.transitions.tooltip"))
-                        .option(ListOption.<String>createBuilder()
-                                .name(Component.translatable("config.worn_path.option.transitions"))
-                                .description(OptionDescription.of(
-                                        Component.translatable("config.worn_path.option.transitions.description")))
-                                .binding(
-                                        defaults.transitions,
-                                        () -> config.transitions,
-                                        value -> config.transitions = value)
-                                .controller(StringControllerBuilder::create)
-                                .initial("minecraft:block_a->minecraft:block_b")
                                 .build())
                         .build())
                 .save(WornPathConfigManager::save)
