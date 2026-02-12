@@ -68,12 +68,12 @@ remapJar {
 
 publishMods {
     file = remapJar.archiveFile
-    changelog = providers.environmentVariable("CHANGELOG").orElse("Release ${project.version}")
+    changelog = env.fetch("CHANGELOG", "Release ${project.version}")
     type = STABLE
     modLoaders.add("neoforge")
 
     modrinth {
-        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        accessToken = env.fetchOrNull("MODRINTH_TOKEN")
         projectId = rootProject.modrinth_project_id
         minecraftVersions.add(rootProject.minecraft_version)
         requires("architectury-api")
