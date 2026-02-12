@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[10,)"
 #issueTrackerURL = ""
-license = "MIT"
+license = "Apache-2.0"
 
 [[mods]]
 modId = "worn_path"
