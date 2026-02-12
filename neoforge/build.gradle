@@ -66,6 +66,7 @@ remapJar {
 
 publishMods {
     file = remapJar.archiveFile
+    changelog = providers.environmentVariable("CHANGELOG").orElse("Release ${project.version}")
     type = STABLE
     modLoaders.add("neoforge")
 
