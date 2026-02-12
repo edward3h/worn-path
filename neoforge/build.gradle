@@ -42,6 +42,8 @@ dependencies {
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
     shadowBundle "blue.endless:jankson:$rootProject.jankson_version"
     runtimeOnly "blue.endless:jankson:$rootProject.jankson_version"
+    shadowBundle "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
+    runtimeOnly "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
 
     // Config dependency (optional at runtime)
     modImplementation "dev.isxander:yet-another-config-lib:$rootProject.yacl_version_neoforge"
