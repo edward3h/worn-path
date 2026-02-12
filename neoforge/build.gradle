@@ -75,6 +75,6 @@ publishMods {
         projectId = rootProject.modrinth_project_id
         minecraftVersions.add(rootProject.minecraft_version)
         requires("architectury-api")
-        optional("yet-another-config-lib")
+        optional("yacl")
     }
 }
