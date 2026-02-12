@@ -72,6 +72,7 @@ publishMods {
     modrinth {
         accessToken = env.fetchOrNull("MODRINTH_TOKEN")
         projectId = rootProject.modrinth_project_id
+        projectDescription = rootProject.file("description.md").text
         minecraftVersions.add(rootProject.minecraft_version)
         requires("architectury-api")
         requires("fabric-api")
