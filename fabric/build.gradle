@@ -73,7 +73,7 @@ publishMods {
         minecraftVersions.add(rootProject.minecraft_version)
         requires("architectury-api")
         requires("fabric-api")
-        optional("yet-another-config-lib")
+        optional("yacl")
         optional("modmenu")
     }
 }
