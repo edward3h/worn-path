@@ -2,12 +2,25 @@ plugins {
     id 'dev.architectury.loom' version '1.13.467' apply false
     id 'architectury-plugin' version '3.4.162'
     id 'com.gradleup.shadow' version '8.3.9' apply false
-    id 'me.modmuss50.mod-publish-plugin' version '1.1.0' apply false
+    id 'me.modmuss50.mod-publish-plugin' version '1.1.0'
     id 'co.uzzu.dotenv.gradle' version '4.0.0'
 }
 
 architectury {
     minecraft = project.minecraft_version
+}
+
+publishMods {
+    changelog = env.fetch("CHANGELOG", "Release ${project.version}")
+    type = STABLE
+
+    github {
+        accessToken = env.fetchOrNull("GITHUB_TOKEN")
+        repository = github_repo
+        commitish = "main"
+        tagName = "v${project.version}"
+        allowEmptyFiles = true
+    }
 }
 
 allprojects {
