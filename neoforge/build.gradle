@@ -80,4 +80,17 @@ publishMods {
         requires("architectury-api")
         optional("yacl")
     }
+
+    curseforge {
+        accessToken = env.fetchOrNull("CURSEFORGE_TOKEN")
+        projectId = rootProject.curseforge_project_id
+        minecraftVersions.add(rootProject.minecraft_version)
+        requires("architectury-api")
+        optional("yacl")
+    }
+
+    github {
+        accessToken = env.fetchOrNull("GITHUB_TOKEN")
+        parent rootProject.tasks.named("publishGithub")
+    }
 }
