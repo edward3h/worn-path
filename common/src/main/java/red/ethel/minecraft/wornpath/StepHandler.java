@@ -51,6 +51,9 @@ public class StepHandler {
         }
         int stepCount = inc(blockId, pos);
         if (stepCount >= WornPathConfigManager.getMaxSteps()) {
+            if (!level.getBlockState(pos.above()).isAir()) {
+                return;
+            }
             var nextId = transitions.get(blockId);
             BlockState newState = BuiltInRegistries.BLOCK.getValue(Identifier.parse(nextId)).defaultBlockState();
             WornPathMod.LOGGER.info("Transitioning {} to {} at depth {}", blockId, newState, depth);
