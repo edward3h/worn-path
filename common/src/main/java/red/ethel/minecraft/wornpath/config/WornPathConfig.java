@@ -10,6 +10,7 @@ public class WornPathConfig {
     public int stepChance = 4;
     public int maxSteps = 3;
     public int maxSpreadDepth = 2;
+    public int sheepProtectionRadius = 2;
     public Map<String, String> transitions = defaultTransitions();
 
     private static Map<String, String> defaultTransitions() {
