@@ -5,8 +5,10 @@ import com.github.benmanes.caffeine.cache.LoadingCache;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.animal.sheep.Sheep;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import red.ethel.minecraft.wornpath.config.WornPathConfigManager;
@@ -52,6 +54,10 @@ public class StepHandler {
         int stepCount = inc(blockId, pos);
         if (stepCount >= WornPathConfigManager.getMaxSteps()) {
             if (!level.getBlockState(pos.above()).isAir()) {
+                return;
+            }
+            int sheepRadius = WornPathConfigManager.getSheepProtectionRadius();
+            if (sheepRadius > 0 && !level.getEntitiesOfClass(Sheep.class, new AABB(pos).inflate(sheepRadius)).isEmpty()) {
                 return;
             }
             var nextId = transitions.get(blockId);
