@@ -1,6 +1,8 @@
 package red.ethel.minecraft.wornpath.config;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,6 +14,11 @@ public class WornPathConfig {
     public int maxSpreadDepth = 2;
     public int sheepProtectionRadius = 2;
     public Map<String, String> transitions = defaultTransitions();
+    public List<String> overheadPassableTags = defaultOverheadPassableTags();
+
+    private static List<String> defaultOverheadPassableTags() {
+        return new ArrayList<>(List.of("minecraft:replaceable", "minecraft:flowers"));
+    }
 
     private static Map<String, String> defaultTransitions() {
         var map = new LinkedHashMap<String, String>();
