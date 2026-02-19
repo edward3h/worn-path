@@ -4,11 +4,14 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.animal.sheep.Sheep;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import red.ethel.minecraft.wornpath.config.WornPathConfigManager;
@@ -53,7 +56,8 @@ public class StepHandler {
         }
         int stepCount = inc(blockId, pos);
         if (stepCount >= WornPathConfigManager.getMaxSteps()) {
-            if (!level.getBlockState(pos.above()).isAir()) {
+            BlockState aboveState = level.getBlockState(pos.above());
+            if (!aboveState.isAir() && !isPassableOverhead(aboveState)) {
                 return;
             }
             int sheepRadius = WornPathConfigManager.getSheepProtectionRadius();
@@ -82,6 +86,16 @@ public class StepHandler {
                 }
             }
         }
+    }
+
+    private boolean isPassableOverhead(BlockState state) {
+        for (String tagId : WornPathConfigManager.getOverheadPassableTags()) {
+            TagKey<Block> tag = TagKey.create(Registries.BLOCK, Identifier.parse(tagId));
+            if (state.is(tag)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int inc(String blockId, BlockPos pos) {

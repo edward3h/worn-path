@@ -1,6 +1,7 @@
 package red.ethel.minecraft.wornpath.config;
 
 import blue.endless.jankson.Jankson;
+import blue.endless.jankson.JsonArray;
 import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.JsonPrimitive;
 import blue.endless.jankson.api.SyntaxError;
@@ -9,7 +10,9 @@ import red.ethel.minecraft.wornpath.WornPathMod;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -106,6 +109,17 @@ public class WornPathConfigManager {
                 cfg.transitions = map;
             }
         }
+        if (json.containsKey("overheadPassableTags")) {
+            if (json.get("overheadPassableTags") instanceof JsonArray arr) {
+                List<String> tags = new ArrayList<>();
+                for (var element : arr) {
+                    if (element instanceof JsonPrimitive primitive) {
+                        tags.add(primitive.asString());
+                    }
+                }
+                cfg.overheadPassableTags = tags;
+            }
+        }
 
         return cfg;
     }
@@ -127,6 +141,13 @@ public class WornPathConfigManager {
         }
         json.put("transitions", transitions);
         json.setComment("transitions", "Block transitions: source block ID -> target block ID");
+
+        JsonArray tagsArray = new JsonArray();
+        for (String tag : cfg.overheadPassableTags) {
+            tagsArray.add(JsonPrimitive.of(tag));
+        }
+        json.put("overheadPassableTags", tagsArray);
+        json.setComment("overheadPassableTags", "Block tags treated as passable overhead — conversion is still allowed when a matching block is above");
 
         return json;
     }
@@ -173,5 +194,9 @@ public class WornPathConfigManager {
 
     public static Map<String, String> getTransitions() {
         return getConfig().transitions;
+    }
+
+    public static List<String> getOverheadPassableTags() {
+        return getConfig().overheadPassableTags;
     }
 }
