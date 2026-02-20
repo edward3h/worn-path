@@ -2,7 +2,11 @@ A server side mod. Tracks where players walk, and if they walk over the same blo
 
 With the default settings, grass or dirt get converted to dirt path, dirt path or coarse dirt to packed mud, packed mud to mud bricks.
 
-Conversion is prevented when a solid block is directly overhead (plants and flowers overhead are allowed), or when sheep are grazing nearby (configurable radius, 2 blocks by default).
+Conversion is prevented when:
+
+- a solid block is directly overhead (plants and flowers are allowed)
+- sheep are grazing nearby (configurable radius, 2 blocks by default)
+- a protecting block is placed directly underneath — defaults to all 16 wool colours, configurable
 
 ## Configuration
 

@@ -18,6 +18,7 @@ import red.ethel.minecraft.wornpath.config.WornPathConfigManager;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -63,6 +64,14 @@ public class StepHandler {
             int sheepRadius = WornPathConfigManager.getSheepProtectionRadius();
             if (sheepRadius > 0 && !level.getEntitiesOfClass(Sheep.class, new AABB(pos).inflate(sheepRadius)).isEmpty()) {
                 return;
+            }
+            Set<String> underlyingProtection = WornPathConfigManager.getUnderlyingProtectionBlocks();
+            if (!underlyingProtection.isEmpty()) {
+                BlockState belowState = level.getBlockState(pos.below());
+                var belowId = belowState.getBlockHolder().getRegisteredName();
+                if (underlyingProtection.contains(belowId)) {
+                    return;
+                }
             }
             var nextId = transitions.get(blockId);
             BlockState newState = BuiltInRegistries.BLOCK.getValue(Identifier.parse(nextId)).defaultBlockState();
