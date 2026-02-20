@@ -12,8 +12,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Manages loading and saving of the Worn Path configuration.
@@ -120,6 +122,17 @@ public class WornPathConfigManager {
                 cfg.overheadPassableTags = tags;
             }
         }
+        if (json.containsKey("underlyingProtectionBlocks")) {
+            if (json.get("underlyingProtectionBlocks") instanceof JsonArray arr) {
+                Set<String> blocks = new LinkedHashSet<>();
+                for (var element : arr) {
+                    if (element instanceof JsonPrimitive primitive) {
+                        blocks.add(primitive.asString());
+                    }
+                }
+                cfg.underlyingProtectionBlocks = blocks;
+            }
+        }
 
         return cfg;
     }
@@ -148,6 +161,13 @@ public class WornPathConfigManager {
         }
         json.put("overheadPassableTags", tagsArray);
         json.setComment("overheadPassableTags", "Block tags treated as passable overhead — conversion is still allowed when a matching block is above");
+
+        JsonArray protectionArray = new JsonArray();
+        for (String block : cfg.underlyingProtectionBlocks) {
+            protectionArray.add(JsonPrimitive.of(block));
+        }
+        json.put("underlyingProtectionBlocks", protectionArray);
+        json.setComment("underlyingProtectionBlocks", "Blocks that prevent conversion when placed underneath — e.g. wool protects a path from wearing down");
 
         return json;
     }
@@ -198,5 +218,9 @@ public class WornPathConfigManager {
 
     public static List<String> getOverheadPassableTags() {
         return getConfig().overheadPassableTags;
+    }
+
+    public static Set<String> getUnderlyingProtectionBlocks() {
+        return getConfig().underlyingProtectionBlocks;
     }
 }
