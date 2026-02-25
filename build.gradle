@@ -11,7 +11,11 @@ architectury {
 }
 
 publishMods {
-    changelog = env.fetch("CHANGELOG", "Release ${project.version}")
+    changelog = {
+        def cl = findProperty('changelog') ?: env.fetchOrNull('CHANGELOG')
+        if (!cl) throw new GradleException('Provide a changelog via -Pchangelog="..." or the CHANGELOG environment variable')
+        cl
+    }()
     type = STABLE
 
     github {
