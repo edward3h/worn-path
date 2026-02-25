@@ -15,6 +15,7 @@ public class WornPathConfig {
     public int maxSteps = 3;
     public int maxSpreadDepth = 2;
     public int sheepProtectionRadius = 2;
+    public boolean logConversions = true;
     public Map<String, String> transitions = defaultTransitions();
     public List<String> overheadPassableTags = defaultOverheadPassableTags();
     public Set<String> underlyingProtectionBlocks = defaultUnderlyingProtectionBlocks();

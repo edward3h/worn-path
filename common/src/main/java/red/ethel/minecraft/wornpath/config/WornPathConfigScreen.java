@@ -4,6 +4,7 @@ import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
+import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -66,6 +67,16 @@ public class WornPathConfigScreen {
                                 .controller(opt -> IntegerSliderControllerBuilder.create(opt)
                                         .range(0, 10)
                                         .step(1))
+                                .build())
+                        .option(Option.<Boolean>createBuilder()
+                                .name(Component.translatable("config.worn_path.option.log_conversions"))
+                                .description(OptionDescription.of(
+                                        Component.translatable("config.worn_path.option.log_conversions.description")))
+                                .binding(
+                                        defaults.logConversions,
+                                        () -> config.logConversions,
+                                        value -> config.logConversions = value)
+                                .controller(BooleanControllerBuilder::create)
                                 .build())
                         .build())
                 .save(WornPathConfigManager::save)

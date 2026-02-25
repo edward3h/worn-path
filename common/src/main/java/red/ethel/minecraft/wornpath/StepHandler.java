@@ -75,7 +75,11 @@ public class StepHandler {
             }
             var nextId = transitions.get(blockId);
             BlockState newState = BuiltInRegistries.BLOCK.getValue(Identifier.parse(nextId)).defaultBlockState();
-            WornPathMod.LOGGER.info("Transitioning {} to {} at depth {}", blockId, newState, depth);
+            if (WornPathConfigManager.getLogConversions()) {
+                WornPathMod.LOGGER.info("Transitioning {} to {} at depth {}", blockId, newState, depth);
+            } else {
+                WornPathMod.LOGGER.debug("Transitioning {} to {} at depth {}", blockId, newState, depth);
+            }
 
             if (depth == 0) {
                 double oldHeight = state.getCollisionShape(level, pos).max(net.minecraft.core.Direction.Axis.Y);
