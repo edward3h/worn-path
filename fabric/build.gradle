@@ -67,8 +67,10 @@ publishMods {
     file = remapJar.archiveFile
     changelog = {
         def cl = findProperty('changelog') ?: env.fetchOrNull('CHANGELOG')
-        if (!cl) throw new GradleException('Provide a changelog via -Pchangelog="..." or the CHANGELOG environment variable')
-        cl
+        if (!cl && gradle.startParameter.taskNames.any { it.toLowerCase().contains('publish') }) {
+            throw new GradleException('Provide a changelog via -Pchangelog="..." or the CHANGELOG environment variable')
+        }
+        cl ?: ''
     }()
     type = STABLE
     modLoaders.add("fabric")
