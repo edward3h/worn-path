@@ -42,6 +42,8 @@ public class WornPathConfigManager {
 
     /**
      * Loads the configuration from disk, creating defaults if the file doesn't exist.
+     * If the file exists but is missing settings added in a newer version, those
+     * settings are written back to disk with their default values.
      */
     public static void load() {
         if (configPath == null) {
@@ -54,6 +56,7 @@ public class WornPathConfigManager {
             try {
                 JsonObject json = JANKSON.load(configPath.toFile());
                 config = fromJson(json);
+                save();
                 WornPathMod.LOGGER.info("Loaded config from {}", configPath);
             } catch (IOException | SyntaxError e) {
                 WornPathMod.LOGGER.error("Failed to load config from {}", configPath, e);
