@@ -6,8 +6,8 @@
   "config.worn_path.option.step_chance.description": "1 in N chance per step to count towards a transition. E.g. 4 means a 25% chance, 1 means every step counts.",
   "config.worn_path.option.max_steps": "Steps Required",
   "config.worn_path.option.max_steps.description": "Number of successful steps needed to trigger a block transition.",
-  "config.worn_path.option.max_spread_depth": "Neighbour Spread Depth",
-  "config.worn_path.option.max_spread_depth.description": "How far block transitions spread to neighbouring blocks. 0 disables spreading.",
+  "config.worn_path.option.max_spread_depth": "Neighbor Spread Depth",
+  "config.worn_path.option.max_spread_depth.description": "How far block transitions spread to neighboring blocks. 0 disables spreading.",
   "config.worn_path.option.log_conversions": "Log Conversions",
   "config.worn_path.option.log_conversions.description": "Log a message at INFO level each time a block is converted. When disabled, conversions are still logged at DEBUG level."
 }
