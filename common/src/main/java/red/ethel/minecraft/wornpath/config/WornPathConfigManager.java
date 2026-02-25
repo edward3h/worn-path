@@ -102,6 +102,9 @@ public class WornPathConfigManager {
         if (json.containsKey("sheepProtectionRadius")) {
             cfg.sheepProtectionRadius = json.getInt("sheepProtectionRadius", cfg.sheepProtectionRadius);
         }
+        if (json.containsKey("logConversions")) {
+            cfg.logConversions = json.getBoolean("logConversions", cfg.logConversions);
+        }
         if (json.containsKey("transitions")) {
             JsonObject obj = (JsonObject) json.get("transitions");
             if (obj != null) {
@@ -150,6 +153,8 @@ public class WornPathConfigManager {
         json.setComment("maxSpreadDepth", "How far transitions spread to neighbours (0 = no spread)");
         json.put("sheepProtectionRadius", JsonPrimitive.of((long) cfg.sheepProtectionRadius));
         json.setComment("sheepProtectionRadius", "Radius in blocks around a block within which sheep prevent conversion (0 = disabled)");
+        json.put("logConversions", new JsonPrimitive(cfg.logConversions));
+        json.setComment("logConversions", "Log a message each time a block is converted (true/false)");
 
         JsonObject transitions = new JsonObject();
         for (var entry : cfg.transitions.entrySet()) {
@@ -213,6 +218,10 @@ public class WornPathConfigManager {
 
     public static int getSheepProtectionRadius() {
         return getConfig().sheepProtectionRadius;
+    }
+
+    public static boolean getLogConversions() {
+        return getConfig().logConversions;
     }
 
     public static Map<String, String> getTransitions() {

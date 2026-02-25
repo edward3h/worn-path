@@ -7,5 +7,7 @@
   "config.worn_path.option.max_steps": "Steps Required",
   "config.worn_path.option.max_steps.description": "Number of successful steps needed to trigger a block transition.",
   "config.worn_path.option.max_spread_depth": "Neighbor Spread Depth",
-  "config.worn_path.option.max_spread_depth.description": "How far block transitions spread to neighboring blocks. 0 disables spreading."
+  "config.worn_path.option.max_spread_depth.description": "How far block transitions spread to neighboring blocks. 0 disables spreading.",
+  "config.worn_path.option.log_conversions": "Log Conversions",
+  "config.worn_path.option.log_conversions.description": "Log a message at INFO level each time a block is converted. When disabled, conversions are still logged at DEBUG level."
 }
