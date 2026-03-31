@@ -27,3 +27,7 @@ gradle-app.setting
 .idea/
 /.env
 .architectury-transformer
+
+# why are there bin dirs?
+*/bin
+
