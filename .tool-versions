@@ -1,1 +1,3 @@
-java temurin-21.0.10+7.0.LTS
+# MC 26.1 requires Java 25.
+# Run `asdf list all java | grep temurin-25` to find the correct version string, then update this file.
+java temurin-25.0.0+36.0.LTS

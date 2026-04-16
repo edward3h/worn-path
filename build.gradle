@@ -35,10 +35,6 @@ allprojects {
 
     repositories {
         maven {
-            name = "ParchmentMC"
-            url = "https://maven.parchmentmc.org"
-        }
-        maven {
             name = "Xander Maven"
             url = "https://maven.isxander.dev/releases"
         }
@@ -77,10 +73,8 @@ subprojects {
 
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
-        mappings loom.layered() {
-            officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:2025.12.20@zip")
-        }
+        // MC 26.1 removed obfuscation — official mappings now include parameter names
+        mappings loom.officialMojangMappings()
         implementation("org.slf4j:slf4j-api:2.0.17")
         implementation("com.github.ben-manes.caffeine:caffeine:3.2.3")
     }
@@ -91,12 +85,12 @@ subprojects {
         // If you remove this line, sources will not be generated.
         withSourcesJar()
 
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
 
     tasks.withType(JavaCompile).configureEach {
-        it.options.release = 21
+        it.options.release = 25
     }
 
     // Configure Maven publishing.
