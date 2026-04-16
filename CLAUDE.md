@@ -44,23 +44,32 @@ Platform-agnostic logic goes in `common`. Each platform subproject has a thin en
   - Platform-specific: `.fabric`, `.neoforge`
   - Mixins: `.mixin`
 - **Mod ID**: `worn_path`
-- **Java**: 21, standard conventions
+- **Java**: 25, standard conventions
 - No automated code style enforcement currently configured
 
-## Key Dependencies
+## Key Dependencies (MC 26.1.2 / `main` branch)
 
 | Dependency | Version |
 |---|---|
-| Minecraft | 1.21.11 |
+| Minecraft | 26.1.2 |
 | Fabric Loader | 0.18.4+ |
-| Fabric API | 0.141.3+1.21.11 |
-| NeoForge | 21.11.38-beta |
-| Architectury API | 19.0.1+ |
-| Caffeine (caching) | 3.2.0 |
-| Parchment mappings | 2025.12.20 |
+| Fabric API | 0.146.0+26.1.2 |
+| NeoForge | 26.1.2.10-beta |
+| Architectury API | pending — not yet released for MC 26.1 |
+| Caffeine (caching) | 3.2.3 |
+
+> **Note**: MC 26.1 removed obfuscation — Parchment mappings are no longer needed. Official Mojang mappings now include parameter names.
+
+## MC 26.1 API Changes
+
+Notable changes that may require code fixes when porting:
+
+- `ItemStack` can no longer be created until a world is loaded — use `ItemStackTemplate` instead
+- `GuiGraphics` renamed to `GuiGraphicsExtractor`; `Screen#render` became `Screen#extractRenderState`
+- `ColorProviderRegistry.BLOCK` replaced with `BlockColorRegistry`
 
 ## Mixins
 
 Config: `common/src/main/resources/worn_path.mixins.json`
 Package: `red.ethel.minecraft.wornpath.mixin`
-Compatibility level: JAVA_21
+Compatibility level: JAVA_25
