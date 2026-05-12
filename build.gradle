@@ -81,7 +81,7 @@ subprojects {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:2025.12.20@zip")
         }
-        implementation("org.slf4j:slf4j-api:2.0.17")
+        implementation("org.slf4j:slf4j-api:2.0.18")
         implementation("com.github.ben-manes.caffeine:caffeine:3.2.4")
     }
 
