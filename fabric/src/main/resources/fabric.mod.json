@@ -29,10 +29,10 @@
     "worn_path.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.18.4",
-    "minecraft": "~1.21.11",
+    "fabricloader": ">=0.16.5",
+    "minecraft": "~1.21.1",
     "java": ">=21",
-    "architectury": ">=19.0.1",
+    "architectury": ">=13.0.8",
     "fabric-api": "*"
   },
   "suggests": {

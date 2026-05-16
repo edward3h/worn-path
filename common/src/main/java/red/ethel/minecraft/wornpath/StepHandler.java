@@ -5,13 +5,14 @@ import com.github.benmanes.caffeine.cache.LoadingCache;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.animal.sheep.Sheep;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import red.ethel.minecraft.wornpath.config.WornPathConfigManager;
@@ -74,7 +75,7 @@ public class StepHandler {
                 }
             }
             var nextId = transitions.get(blockId);
-            BlockState newState = BuiltInRegistries.BLOCK.getValue(Identifier.parse(nextId)).defaultBlockState();
+            BlockState newState = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.parse(nextId)).orElse(Blocks.AIR).defaultBlockState();
             if (WornPathConfigManager.getLogConversions()) {
                 WornPathMod.LOGGER.info("Transitioning {} to {} at depth {}", blockId, newState, depth);
             } else {
@@ -103,7 +104,7 @@ public class StepHandler {
 
     private boolean isPassableOverhead(BlockState state) {
         for (String tagId : WornPathConfigManager.getOverheadPassableTags()) {
-            TagKey<Block> tag = TagKey.create(Registries.BLOCK, Identifier.parse(tagId));
+            TagKey<Block> tag = TagKey.create(Registries.BLOCK, ResourceLocation.parse(tagId));
             if (state.is(tag)) {
                 return true;
             }
