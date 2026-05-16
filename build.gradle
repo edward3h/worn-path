@@ -24,14 +24,14 @@ publishMods {
         accessToken = env.fetchOrNull("GITHUB_TOKEN")
         repository = github_repo
         commitish = "main"
-        tagName = "v${project.mod_version}"
+        tagName = "v${project.version}"
         allowEmptyFiles = true
     }
 }
 
 allprojects {
     group = rootProject.maven_group
-    version = rootProject.mod_version
+    version = "${rootProject.mod_version}+${rootProject.minecraft_version}"
 
     repositories {
         maven {
