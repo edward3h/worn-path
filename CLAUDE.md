@@ -11,8 +11,11 @@ Each Minecraft version has its own branch:
 |---|---|
 | `main` | latest supported MC version |
 | `mc/1.21.11` | MC 1.21.11 |
+| `mc/1.21.1` | MC 1.21.1 |
 
-Bug fixes and features are developed on one branch and cherry-picked to others. Each branch has its own `gradle.properties` with the correct dependency versions. Published artefacts include the MC version in the version string (e.g. `1.5.1+1.21.11`).
+Bug fixes and features are developed on one branch and cherry-picked to others. Each branch has its own `gradle.properties` with the correct dependency versions. Published artefacts include the MC version in the version string (e.g. `1.5.3+1.21.11`).
+
+`mod_version` must be kept in sync across all branches. When a fix is cherry-picked and published, bump `mod_version` to the same value on every branch before moving on.
 
 To port a commit to another MC version:
 ```
