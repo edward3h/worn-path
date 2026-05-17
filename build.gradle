@@ -24,7 +24,7 @@ publishMods {
         accessToken = env.fetchOrNull("GITHUB_TOKEN")
         repository = github_repo
         commitish = "main"
-        tagName = "v${project.version}"
+        tagName = "v${mod_version}+${minecraft_version}"
         allowEmptyFiles = true
     }
 }
