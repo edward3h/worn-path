@@ -61,6 +61,7 @@ shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
     relocate 'blue.endless.jankson', 'red.ethel.minecraft.wornpath.jankson'
+    exclude 'com/google/errorprone/**'
 }
 
 remapJar {
