@@ -5,7 +5,7 @@ pluginManagement {
         gradlePluginPortal()
     }
     plugins {
-        id 'net.fabricmc.fabric-loom-remap' version settings.providers.gradleProperty('fabric_loom_version').get()
+        id 'net.fabricmc.fabric-loom' version settings.providers.gradleProperty('fabric_loom_version').get()
         id 'net.neoforged.moddev' version settings.providers.gradleProperty('moddev_version').get()
     }
 }

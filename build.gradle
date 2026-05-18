@@ -2,7 +2,7 @@ plugins {
     id 'com.gradleup.shadow' version '8.3.10' apply false
     id 'me.modmuss50.mod-publish-plugin' version '1.1.0'
     id 'co.uzzu.dotenv.gradle' version '4.0.0'
-    id 'net.fabricmc.fabric-loom-remap' apply false
+    id 'net.fabricmc.fabric-loom' apply false
     id 'net.neoforged.moddev' apply false
 }
 
@@ -49,14 +49,17 @@ allprojects {
     }
 }
 
-// Shared configuration for all subprojects.
-// Platform-specific plugins (net.fabricmc.fabric-loom-remap for Fabric/common,
-// net.neoforged.moddev for NeoForge) are applied in each subproject's build.gradle.
-// Note: for MC 26.1.2, Mojang did not publish obfuscation mappings, so the standard
-// Loom workflow (officialMojangMappings) is unavailable. Mapping strategy is TBD in Tasks 4-6.
-subprojects {
-    apply plugin: 'java-library'
+// Shared Loom config for common and fabric subprojects only.
+// MC 26.1+ is unobfuscated — no mappings declaration needed.
+configure([project(':common'), project(':fabric')]) {
+    apply plugin: 'net.fabricmc.fabric-loom'
     apply plugin: 'maven-publish'
+
+    dependencies {
+        minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
+        // No mappings block — MC 26.1+ ships unobfuscated
+        implementation("org.slf4j:slf4j-api:2.0.18")
+    }
 
     java {
         withSourcesJar()
