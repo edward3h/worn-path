@@ -1,7 +1,5 @@
 dependencies {
-    // Fabric Loader for compile-time type access (not bundled at runtime).
-    // Use compileOnly rather than modImplementation since Loom's configure block
-    // in the root build.gradle applies the plugin after this file is evaluated.
+    // Fabric Loader is provided at runtime by the platform — compile-time type access only.
     compileOnly "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
     // Jankson for config file parsing

@@ -4,8 +4,6 @@ plugins {
     id 'me.modmuss50.mod-publish-plugin'
 }
 
-// For unobfuscated MC 26.1+, Loom does not create modImplementation.
-// All dependencies use standard Gradle configurations.
 configurations {
     common {
         canBeResolved = true
@@ -21,7 +19,7 @@ configurations {
 }
 
 dependencies {
-    // Fabric Loader and API are just regular JARs — no remapping needed
+    // Plain implementation (not modImplementation) — MC 26.1+ is unobfuscated, no remapping step
     implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
     implementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
 
@@ -30,6 +28,7 @@ dependencies {
 
     // Shadow bundle: bundle common classes and runtime-only libs into the fabric JAR
     shadowBundle project(path: ':common', configuration: 'runtimeElements')
+    // runtimeOnly mirrors shadowBundle so runClient picks up these libs during development
     shadowBundle "blue.endless:jankson:$rootProject.jankson_version"
     runtimeOnly "blue.endless:jankson:$rootProject.jankson_version"
     shadowBundle "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
