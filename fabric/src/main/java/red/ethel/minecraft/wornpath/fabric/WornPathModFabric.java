@@ -1,6 +1,7 @@
 package red.ethel.minecraft.wornpath.fabric;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import red.ethel.minecraft.wornpath.WornPathMod;
 import red.ethel.minecraft.wornpath.config.WornPathConfigManager;
@@ -17,5 +18,8 @@ public final class WornPathModFabric implements ModInitializer {
 
         // Run our common setup.
         WornPathMod.init();
+
+        // Clean up handler cache when a world unloads
+        ServerLevelEvents.UNLOAD.register((server, world) -> WornPathMod.onLevelUnload(world));
     }
 }
