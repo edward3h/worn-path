@@ -50,7 +50,7 @@ public class StepHandler {
     }
 
     private void tryTransition(BlockPos pos, BlockState state, Player playerEntity, int depth) {
-        var blockId = state.getBlockHolder().getRegisteredName();
+        var blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
         Map<String, String> transitions = WornPathConfigManager.getTransitions();
         if (!transitions.containsKey(blockId)) {
             return;
@@ -68,7 +68,7 @@ public class StepHandler {
             Set<String> underlyingProtection = WornPathConfigManager.getUnderlyingProtectionBlocks();
             if (!underlyingProtection.isEmpty()) {
                 BlockState belowState = level.getBlockState(pos.below());
-                var belowId = belowState.getBlockHolder().getRegisteredName();
+                var belowId = BuiltInRegistries.BLOCK.getKey(belowState.getBlock()).toString();
                 if (underlyingProtection.contains(belowId)) {
                     return;
                 }

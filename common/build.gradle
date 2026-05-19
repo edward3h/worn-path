@@ -1,4 +1,16 @@
-// TODO (Task 4): rewrite for native multi-loader (no Architectury)
-// Fabric Loom + minecraft/mappings configuration will be set up here
-// Note: MC 26.1.2 does not have Mojang obfuscation mappings published;
-// mappings strategy TBD (possibly NeoForge-provided mappings via cross-compilation)
+dependencies {
+    // Fabric Loader for compile-time type access (not bundled at runtime).
+    // Use compileOnly rather than modImplementation since Loom's configure block
+    // in the root build.gradle applies the plugin after this file is evaluated.
+    compileOnly "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+
+    // Jankson for config file parsing
+    implementation "blue.endless:jankson:$rootProject.jankson_version"
+
+    // Caffeine for caching
+    implementation "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
+
+    // YACL for config screen (compile-only) — neoforge variant used as type stub;
+    // no 26.1.x fabric release yet, but the API types are identical.
+    compileOnly "dev.isxander:yet-another-config-lib:$rootProject.yacl_version"
+}

@@ -1,6 +1,5 @@
 package red.ethel.minecraft.wornpath;
 
-import dev.architectury.event.events.common.LifecycleEvent;
 import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,12 @@ public final class WornPathMod {
 
     public static void init() {
         LOGGER.debug("WornPathMod initialising");
-        LifecycleEvent.SERVER_LEVEL_UNLOAD.register(handlers::remove);
+        // Platform-specific code (Fabric/NeoForge) must call onLevelUnload() when a
+        // server level is unloaded so that the handler map does not leak levels.
+    }
+
+    public static void onLevelUnload(Level level) {
+        handlers.remove(level);
     }
 
     public static StepHandler getHandler(Level level) {
