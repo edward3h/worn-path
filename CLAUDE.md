@@ -1,6 +1,6 @@
 # Worn Path Minecraft Mod
 
-Architectury-based multi-platform Minecraft mod for Fabric and NeoForge.
+Multi-platform Minecraft mod for Fabric and NeoForge (native multi-loader, no Architectury).
 Where players walk, paths may appear.
 
 ## Multi-Version Branch Strategy
@@ -9,7 +9,7 @@ Each Minecraft version has its own branch:
 
 | Branch | Minecraft version |
 |---|---|
-| `main` | latest supported MC version |
+| `main` | latest supported MC version (26.1.x) |
 | `mc/1.21.11` | MC 1.21.11 |
 | `mc/1.21.1` | MC 1.21.1 |
 
@@ -47,23 +47,25 @@ Platform-agnostic logic goes in `common`. Each platform subproject has a thin en
   - Platform-specific: `.fabric`, `.neoforge`
   - Mixins: `.mixin`
 - **Mod ID**: `worn_path`
-- **Java**: 21, standard conventions
+- **Java**: 25 (on main/26.1.x), 21 (on mc/1.21.x branches)
 - No automated code style enforcement currently configured
 
-## Key Dependencies
+## Key Dependencies (main / 26.1.x)
 
 | Dependency | Version |
 |---|---|
-| Minecraft | 1.21.11 |
-| Fabric Loader | 0.18.4+ |
-| Fabric API | 0.141.3+1.21.11 |
-| NeoForge | 21.11.38-beta |
-| Architectury API | 19.0.1+ |
-| Caffeine (caching) | 3.2.0 |
-| Parchment mappings | 2025.12.20 |
+| Minecraft | 26.1.2 |
+| Fabric Loader | 0.19.2+ |
+| Fabric API | 0.148.2+26.1.2 |
+| NeoForge | 26.1.2.55-beta |
+| Fabric Loom | 1.16.2 |
+| ModDevGradle | 2.0.141 |
+| Caffeine (caching) | 3.2.4 |
+
+Note: MC 26.1.x is the first unobfuscated Minecraft release — no Mojang mappings or remapping step needed. Use `net.fabricmc.fabric-loom` (not `fabric-loom-remap`) for Fabric builds.
 
 ## Mixins
 
 Config: `common/src/main/resources/worn_path.mixins.json`
 Package: `red.ethel.minecraft.wornpath.mixin`
-Compatibility level: JAVA_21
+Compatibility level: JAVA_21 (update to JAVA_25 for 26.1.x builds)
