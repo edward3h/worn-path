@@ -44,8 +44,8 @@ dependencies {
     // Jankson and Caffeine (bundled)
     implementation "blue.endless:jankson:$rootProject.jankson_version"
     implementation "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
+    // runtimeOnly mirrors shadowBundle so runClient/runServer picks up these libs during development
     shadowBundle "blue.endless:jankson:$rootProject.jankson_version"
-    // runtimeOnly mirrors shadowBundle for runServer/runClient dev
     runtimeOnly "blue.endless:jankson:$rootProject.jankson_version"
     shadowBundle "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
     runtimeOnly "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
@@ -75,7 +75,8 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
-    relocate 'blue.endless.jankson', 'red.ethel.minecraft.wornpath.jankson'
+    relocate 'blue.endless.jankson', 'red.ethel.minecraft.wornpath.jankson'  // avoids conflict with xaeroworldmap's bundled Jankson
+    // Caffeine is not relocated — no known module conflict
     exclude 'com/google/errorprone/**'
 }
 
