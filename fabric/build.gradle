@@ -1,2 +1,99 @@
-// TODO (Task 5): rewrite for native Fabric multi-loader (no Architectury)
-// Fabric Loom + minecraft/mappings configuration will be set up here
+plugins {
+    id 'net.fabricmc.fabric-loom'
+    id 'com.gradleup.shadow'
+    id 'me.modmuss50.mod-publish-plugin'
+}
+
+// For unobfuscated MC 26.1+, Loom does not create modImplementation.
+// All dependencies use standard Gradle configurations.
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+dependencies {
+    // Fabric Loader and API are just regular JARs — no remapping needed
+    implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    implementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+
+    // common classpath — use default configuration (runtimeElements)
+    common(project(path: ':common', configuration: 'runtimeElements')) { transitive = false }
+
+    // Shadow bundle: bundle common classes and runtime-only libs into the fabric JAR
+    shadowBundle project(path: ':common', configuration: 'runtimeElements')
+    shadowBundle "blue.endless:jankson:$rootProject.jankson_version"
+    runtimeOnly "blue.endless:jankson:$rootProject.jankson_version"
+    shadowBundle "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
+    runtimeOnly "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
+
+    // Config dependencies (no 26.1.x releases yet)
+    // YACL is compile-only in common (neoforge variant used as type stub)
+    // ModMenu: no 26.1.x release yet; ModMenuIntegration.java removed until a compatible release is available
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand version: inputs.properties.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
+}
+
+// For unobfuscated MC 26.1+, shadowJar is the final artifact (no remapJar needed)
+jar {
+    enabled = false
+}
+
+artifacts {
+    archives shadowJar
+}
+
+publishMods {
+    file = shadowJar.archiveFile
+    changelog = {
+        def cl = findProperty('changelog') ?: env.fetchOrNull('CHANGELOG')
+        if (!cl && gradle.startParameter.taskNames.any { it.toLowerCase().contains('publish') }) {
+            throw new GradleException('Provide a changelog via -Pchangelog="..." or the CHANGELOG environment variable')
+        }
+        cl ?: ''
+    }()
+    type = STABLE
+    modLoaders.add("fabric")
+
+    modrinth {
+        accessToken = env.fetchOrNull("MODRINTH_TOKEN")
+        projectId = rootProject.modrinth_project_id
+        projectDescription = rootProject.file("description.md").text
+        minecraftVersions.add(rootProject.minecraft_version)
+        requires("fabric-api")
+        optional("yacl")
+        optional("modmenu")
+    }
+
+    curseforge {
+        accessToken = env.fetchOrNull("CURSEFORGE_TOKEN")
+        projectId = rootProject.curseforge_project_id
+        minecraftVersions.add(rootProject.minecraft_version)
+        requires("fabric-api")
+        optional("yacl")
+        optional("modmenu")
+    }
+
+    github {
+        accessToken = env.fetchOrNull("GITHUB_TOKEN")
+        parent rootProject.tasks.named("publishGithub")
+    }
+}
