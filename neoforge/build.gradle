@@ -1,2 +1,130 @@
-// TODO (Task 6): implement NeoForge build with ModDevGradle
-// This file will be rewritten to use net.neoforged.moddev plugin
+plugins {
+    id 'net.neoforged.moddev'
+    id 'com.gradleup.shadow'
+    id 'me.modmuss50.mod-publish-plugin'
+    id 'maven-publish'
+}
+
+base {
+    archivesName = "$rootProject.archives_name-$project.name"
+}
+
+neoForge {
+    version = rootProject.neoforge_version
+
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+        }
+    }
+
+    mods {
+        worn_path {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+// Include common sources — compiles common code under NeoForge's toolchain.
+// Do NOT add project(':common') as a dependency — that would cause duplicate class errors.
+sourceSets.main.java.srcDirs += project(':common').sourceSets.main.java.srcDirs
+sourceSets.main.resources.srcDirs += project(':common').sourceSets.main.resources.srcDirs
+
+configurations {
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+dependencies {
+    // Jankson and Caffeine (bundled)
+    implementation "blue.endless:jankson:$rootProject.jankson_version"
+    implementation "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
+    shadowBundle "blue.endless:jankson:$rootProject.jankson_version"
+    // runtimeOnly mirrors shadowBundle for runServer/runClient dev
+    runtimeOnly "blue.endless:jankson:$rootProject.jankson_version"
+    shadowBundle "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
+    runtimeOnly "com.github.ben-manes.caffeine:caffeine:$rootProject.caffeine_version"
+
+    // YACL: no 26.1.x neoforge release yet; neoforge variant used as compile-only type stub
+    // so that WornPathConfigScreen (included via common srcDirs) can compile.
+    compileOnly "dev.isxander:yet-another-config-lib:$rootProject.yacl_version"
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.toVersion(25)
+    targetCompatibility = JavaVersion.toVersion(25)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand version: inputs.properties.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
+    relocate 'blue.endless.jankson', 'red.ethel.minecraft.wornpath.jankson'
+    exclude 'com/google/errorprone/**'
+}
+
+jar {
+    enabled = false
+}
+
+artifacts {
+    archives shadowJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = base.archivesName.get()
+            artifact shadowJar
+        }
+    }
+}
+
+publishMods {
+    file = shadowJar.archiveFile
+    changelog = {
+        def cl = findProperty('changelog') ?: env.fetchOrNull('CHANGELOG')
+        if (!cl && gradle.startParameter.taskNames.any { it.toLowerCase().contains('publish') }) {
+            throw new GradleException('Provide a changelog via -Pchangelog="..." or the CHANGELOG environment variable')
+        }
+        cl ?: ''
+    }()
+    type = STABLE
+    modLoaders.add("neoforge")
+
+    modrinth {
+        accessToken = env.fetchOrNull("MODRINTH_TOKEN")
+        projectId = rootProject.modrinth_project_id
+        projectDescription = rootProject.file("description.md").text
+        minecraftVersions.add(rootProject.minecraft_version)
+        optional("yacl")
+    }
+
+    curseforge {
+        accessToken = env.fetchOrNull("CURSEFORGE_TOKEN")
+        projectId = rootProject.curseforge_project_id
+        minecraftVersions.add(rootProject.minecraft_version)
+        optional("yacl")
+    }
+
+    github {
+        accessToken = env.fetchOrNull("GITHUB_TOKEN")
+        parent rootProject.tasks.named("publishGithub")
+    }
+}
