@@ -17,3 +17,8 @@ Comments in the file explain the settings.
 ### YACL
 
 If YACL is available, it can be used in the client to configure some of the settings for a single player world.
+
+## Modpack Permissions
+
+You are welcome to include this mod in your modpack.
+
