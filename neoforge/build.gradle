@@ -85,6 +85,7 @@ publishMods {
         projectId = rootProject.modrinth_project_id
         projectDescription = rootProject.file("description.md").text
         minecraftVersions.add(rootProject.minecraft_version)
+        environment = SERVER_ONLY
         requires("architectury-api")
         optional("yacl")
     }
@@ -93,6 +94,8 @@ publishMods {
         accessToken = env.fetchOrNull("CURSEFORGE_TOKEN")
         projectId = rootProject.curseforge_project_id
         minecraftVersions.add(rootProject.minecraft_version)
+        server = true
+        client = false
         requires("architectury-api")
         optional("yacl")
     }
