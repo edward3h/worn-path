@@ -58,7 +58,7 @@ configure([project(':common'), project(':fabric')]) {
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         // No mappings block — MC 26.1+ ships unobfuscated
-        implementation("org.slf4j:slf4j-api:2.0.18")
+        implementation("org.slf4j:slf4j-api:2.0.19")
     }
 
     java {
